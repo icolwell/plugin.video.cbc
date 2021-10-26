@@ -62,10 +62,15 @@ class GemV2:
             'country': 'Canada',
             'tvshowtitle': show['title'],
             'title': episode['title'],
+            'originaltitle': episode['title'],
             'plot': episode['description'],
             'plotoutline': episode['description'],
             'season': episode['season'],
         }
         if 'episode' in episode:
             labels['episode'] = episode['episode']
+
+        if 'duration' in episode:
+            labels['duration'] = episode['duration']
+
         return labels

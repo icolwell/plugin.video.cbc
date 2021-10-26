@@ -192,10 +192,12 @@ def gem_show_season():
         item.setArt({'thumb': image, 'poster': image})
         item.setProperty('IsPlayable', 'true')
         labels = GemV2.get_labels(show, episode)
-        item.setInfo(type="Video", infoLabels=labels)
+        labels['mediatype'] = 'episode'
+        item.setInfo(type="video", infoLabels=labels)
         episode_info = {'url': episode['playSession']['url'], 'labels': labels}
         url = plugin.url_for(gem_episode, query=json.dumps(episode_info))
         xbmcplugin.addDirectoryItem(plugin.handle, url, item, False)
+    xbmcplugin.addSortMethod(plugin.handle, xbmcplugin.SORT_METHOD_EPISODE)
     xbmcplugin.endOfDirectory(plugin.handle)
 
 
@@ -213,6 +215,9 @@ def gem_show_menu(show_id):
         # films seem to have been shoe-horned (with teeth) into the structure oddly -- compensate
         if film:
             labels['title'] = title
+            labels['mediatype'] = 'movie'
+        else:
+            labels['mediatype'] = 'season'
 
         item = xbmcgui.ListItem(title)
         item.setInfo(type="Video", infoLabels=labels)
